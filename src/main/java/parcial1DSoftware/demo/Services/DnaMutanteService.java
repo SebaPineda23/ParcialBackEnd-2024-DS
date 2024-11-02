@@ -14,8 +14,8 @@ public class DnaMutanteService {
     @Autowired
     private DnaMutanteRepository dnaMutanteRepository;
 
-    private long contadorMutanteDna = 0;
-    private long contadorHumanoDna = 0;
+    long contadorMutanteDna = 0;
+    long contadorHumanoDna = 0;
 
     public boolean esMutante(String[] dna) {
 
