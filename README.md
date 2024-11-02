@@ -4,7 +4,7 @@ Este proyecto es una API REST desarrollada en **Java** con **Spring Boot** que p
 
 ## Tabla de Contenidos
 
--La Dna Mutante API es un proyecto backend diseñado para analizar secuencias de ADN y determinar si pertenecen a un mutante o a un humano. Basado en patrones genéticos específicos, este sistema identifica características únicas en las cadenas de ADN que pueden clasificar una secuencia como mutante. La API no solo permite realizar estos análisis, sino que también almacena los resultados en una base de datos para consultas y estadísticas posteriores.
+La Dna Mutante API es un proyecto backend diseñado para analizar secuencias de ADN y determinar si pertenecen a un mutante o a un humano. Basado en patrones genéticos específicos, este sistema identifica características únicas en las cadenas de ADN que pueden clasificar una secuencia como mutante. La API no solo permite realizar estos análisis, sino que también almacena los resultados en una base de datos para consultas y estadísticas posteriores.
 
 Entre las funcionalidades clave de la API se incluyen la verificación de secuencias de ADN, el almacenamiento de resultados de los análisis, la consulta de estadísticas de ADN (como el número de secuencias mutantes y humanas analizadas) y la posibilidad de gestionar los registros almacenados. Además, está implementada en Java con Spring Boot y ha sido desplegada en la nube a través de Render, lo que permite su acceso remoto.
 - [Ejecución del Proyecto](#ejecución-del-proyecto)
