@@ -8,7 +8,7 @@ La Dna Mutante API es un proyecto backend diseñado para analizar secuencias de 
 
 Entre las funcionalidades clave de la API se incluyen la verificación de secuencias de ADN, el almacenamiento de resultados de los análisis, la consulta de estadísticas de ADN (como el número de secuencias mutantes y humanas analizadas) y la posibilidad de gestionar los registros almacenados. Además, está implementada en Java con Spring Boot y ha sido desplegada en la nube a través de Render, lo que permite su acceso remoto.
 - [Ejecución del Proyecto](#ejecución-del-proyecto)
-- Método HTTP	Ruta	Descripción
+Método HTTP	Ruta	Descripción
 POST	https://parcialbackend-2024-ds.onrender.com/mutantes	Determina si una secuencia de ADN corresponde a un mutante o a un humano.
 GET	https://parcialbackend-2024-ds.onrender.com/dnaEstadisticas/stats	Devuelve estadísticas de ADN mutante y humano, incluyendo el ratio.
 DELETE	https://parcialbackend-2024-ds.onrender.com/mutantes/delete/{id}	Elimina una secuencia de ADN almacenada mediante su ID.
