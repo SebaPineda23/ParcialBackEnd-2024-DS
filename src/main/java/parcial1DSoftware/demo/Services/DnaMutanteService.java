@@ -14,12 +14,16 @@ public class DnaMutanteService {
     @Autowired
     private DnaMutanteRepository dnaMutanteRepository;
 
-    long contadorMutanteDna = 0;
-    long contadorHumanoDna = 0;
+    public long contadorMutanteDna = 0;
+    public long contadorHumanoDna = 0;
 
     public boolean esMutante(String[] dna) {
 
         String dnaString = Arrays.toString(dna);
+
+        if (dnaMutanteRepository.existsByDna(dnaString)) {
+            throw new IllegalArgumentException("El ADN ya ha sido registrado.");
+        }
 
         boolean siEsMutante = confirmacionMutante(dna);
 
@@ -52,29 +56,23 @@ public class DnaMutanteService {
         }
 
         int n = dna.length;
-        validarFormatoDna(dna, n);
+        for (String row : dna) {
+            if (row.isEmpty()) {
+                throw new IllegalArgumentException("Cada cadena de DNA debe tener una longitud de exactamente 6 caracteres.");
+            }
+            if (row.length() != n) {
+                throw new IllegalArgumentException("Todas las filas deben tener la misma longitud. El DNA debe ser cuadrado (NxN)");
+            }
+            if (!row.matches("[ATCG]+")) {
+                throw new IllegalArgumentException("El DNA contiene caracteres no válidos. Solo se permiten A, T, C, G.");
+            }
+        }
+
         int secuenciasEncontradas = contarSecuencias(dna, n, 0, 0, 0);
 
         return secuenciasEncontradas >= 2;
     }
 
-    private void validarFormatoDna(String[] dna, int n) {
-        validarFila(dna, n, 0);
-    }
-
-    private void validarFila(String[] dna, int n, int index) {
-        if (index >= n) return;
-
-        String row = dna[index];
-        if (row.length() != n) {
-            throw new IllegalArgumentException("Todas las filas deben tener la misma longitud. El DNA debe ser cuadrado (NxN)");
-        }
-        if (!row.matches("[ATCG]+")) {
-            throw new IllegalArgumentException("El DNA contiene caracteres no válidos. Solo se permiten A, T, C, G.");
-        }
-
-        validarFila(dna, n, index + 1);
-    }
 
     // Método principal de recursión para buscar secuencias
     private int contarSecuencias(String[] dna, int n, int row, int col, int secuenciasEncontradas) {

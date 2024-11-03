@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Pruebas de Confirmación de Mutante" tests="6" skipped="0" failures="0" errors="0" timestamp="2024-11-03T21:45:25" hostname="DESKTOP-6O0OTH9" time="0.024">
+  <properties/>
+  <testcase name="Debería lanzar excepción si hay elementos vacíos en el DNA" classname="parcial1DSoftware.demo.DnaTest$ConfirmacionMutanteTests" time="0.011"/>
+  <testcase name="Debería lanzar excepción si el DNA es nulo" classname="parcial1DSoftware.demo.DnaTest$ConfirmacionMutanteTests" time="0.001"/>
+  <testcase name="Debería lanzar excepción si el DNA contiene números" classname="parcial1DSoftware.demo.DnaTest$ConfirmacionMutanteTests" time="0.002"/>
+  <testcase name="Debería confirmar que el DNA es mutante" classname="parcial1DSoftware.demo.DnaTest$ConfirmacionMutanteTests" time="0.002"/>
+  <testcase name="Debería lanzar excepción si el DNA contiene caracteres no válidos" classname="parcial1DSoftware.demo.DnaTest$ConfirmacionMutanteTests" time="0.001"/>
+  <testcase name="Debería lanzar excepción si el DNA no es cuadrado(NxN)" classname="parcial1DSoftware.demo.DnaTest$ConfirmacionMutanteTests" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

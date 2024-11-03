@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 import parcial1DSoftware.demo.Entities.DnaMutante;
 @Repository
 public interface DnaMutanteRepository extends JpaRepository<DnaMutante, Long> {
+    boolean existsByDna(String dna);
 }

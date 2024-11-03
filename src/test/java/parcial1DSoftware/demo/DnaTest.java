@@ -98,7 +98,7 @@ public class DnaTest {
             IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
                 dnaMutanteService.confirmacionMutante(dna);
             });
-            assertEquals("Todas las filas deben tener la misma longitud. Es decir el DNA debe ser cuadrado(NxN)", thrown.getMessage());
+            assertEquals("Todas las filas deben tener la misma longitud. El DNA debe ser cuadrado (NxN)", thrown.getMessage());
         }
     }
 }

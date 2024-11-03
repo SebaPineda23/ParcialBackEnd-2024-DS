@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DnaMutanteController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">parcial1DSoftware.demo.Controllers</a> &gt; <span class="el_source">DnaMutanteController.java</span></div><h1>DnaMutanteController.java</h1><pre class="source lang-java linenums">package parcial1DSoftware.demo.Controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import parcial1DSoftware.demo.Services.DnaMutanteService;
+
+import java.util.Map;
+
+@RestController
+@CrossOrigin(&quot;*&quot;)
+@RequestMapping(&quot;/mutantes&quot;)
+<span class="fc" id="L14">public class DnaMutanteController {</span>
+    @Autowired
+    private DnaMutanteService dnaMutanteService;
+
+    @PostMapping()
+    public ResponseEntity&lt;?&gt; comprobarMutante(@RequestBody Map&lt;String, String[]&gt; dnaMutante){
+<span class="nc" id="L20">        String[] dna = dnaMutante.get(&quot;dna&quot;);</span>
+<span class="nc bnc" id="L21" title="All 4 branches missed.">        if (dna == null || dna.length == 0) {</span>
+<span class="nc" id="L22">            return ResponseEntity.badRequest().build();</span>
+        }
+
+<span class="nc" id="L25">        boolean isMutant = dnaMutanteService.esMutante(dna);</span>
+
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if (isMutant) {</span>
+<span class="nc" id="L28">            return ResponseEntity.ok().body(&quot;{\&quot;mensaje\&quot;:\&quot;El DNA es totalmente mutante.\&quot;}&quot;); // Respuesta 200 OK para mutantes</span>
+        } else {
+<span class="nc" id="L30">            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(&quot;{\&quot;mensaje\&quot;:\&quot;El DNA es humano.\&quot;}&quot;); // Respuesta 403 Forbidden para humanos</span>
+        }
+    }
+    @DeleteMapping(&quot;/delete/{id}&quot;)
+    public ResponseEntity&lt;?&gt; deleteMutante(@PathVariable Long id){
+        try{
+<span class="nc" id="L36">            return ResponseEntity.status(HttpStatus.OK).body(dnaMutanteService.delete(id));</span>
+<span class="nc" id="L37">        }catch (Exception e){</span>
+<span class="nc" id="L38">            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(&quot;{\&quot;error\&quot;:\&quot;Error. Porfavor intente mÃ¡s tarde.\&quot;}&quot;);</span>
+        }
+    }
+    @DeleteMapping(&quot;/deleteAll&quot;)
+    public ResponseEntity&lt;?&gt; deleteMutante(){
+        try{
+<span class="nc" id="L44">            return ResponseEntity.status(HttpStatus.OK).body(dnaMutanteService.deleteAll());</span>
+<span class="nc" id="L45">        }catch (Exception e){</span>
+<span class="nc" id="L46">            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(&quot;{\&quot;error\&quot;:\&quot;Error. Porfavor intente mÃ¡s tarde.\&quot;}&quot;);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

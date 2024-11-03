@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DnaMutanteService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">parcial1DSoftware.demo.Services</a> &gt; <span class="el_source">DnaMutanteService.java</span></div><h1>DnaMutanteService.java</h1><pre class="source lang-java linenums">package parcial1DSoftware.demo.Services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import parcial1DSoftware.demo.Entities.DnaMutante;
+import parcial1DSoftware.demo.Repositories.DnaMutanteRepository;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+@Service
+<span class="fc" id="L13">public class DnaMutanteService {</span>
+    @Autowired
+    private DnaMutanteRepository dnaMutanteRepository;
+
+<span class="fc" id="L17">    public long contadorMutanteDna = 0;</span>
+<span class="fc" id="L18">    public long contadorHumanoDna = 0;</span>
+
+    public boolean esMutante(String[] dna) {
+
+<span class="nc" id="L22">        String dnaString = Arrays.toString(dna);</span>
+
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        if (dnaMutanteRepository.existsByDna(dnaString)) {</span>
+<span class="nc" id="L25">            throw new IllegalArgumentException(&quot;El ADN ya ha sido registrado.&quot;);</span>
+        }
+
+<span class="nc" id="L28">        boolean siEsMutante = confirmacionMutante(dna);</span>
+
+<span class="nc" id="L30">        DnaMutante dnaMutante = new DnaMutante();</span>
+<span class="nc" id="L31">        dnaMutante.setDna(dnaString);</span>
+<span class="nc" id="L32">        dnaMutante.setMutant(siEsMutante);</span>
+<span class="nc" id="L33">        dnaMutanteRepository.save(dnaMutante);</span>
+
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (siEsMutante) {</span>
+<span class="nc" id="L36">            contadorMutanteDna++;</span>
+        } else {
+<span class="nc" id="L38">            contadorHumanoDna++;</span>
+        }
+
+<span class="nc" id="L41">        return siEsMutante;</span>
+    }
+
+    public Map&lt;String, Object&gt; getEstadisticas() {
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        double ratio = contadorHumanoDna &gt; 0 ? (double) contadorMutanteDna / contadorHumanoDna : 0.0;</span>
+<span class="nc" id="L46">        Map&lt;String, Object&gt; stats = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L47">        stats.put(&quot;count_mutant_dna&quot;, contadorMutanteDna);</span>
+<span class="nc" id="L48">        stats.put(&quot;count_human_dna&quot;, contadorHumanoDna);</span>
+<span class="nc" id="L49">        stats.put(&quot;ratio&quot;, ratio);</span>
+<span class="nc" id="L50">        return stats;</span>
+    }
+
+    public boolean confirmacionMutante(String[] dna) {
+<span class="pc bpc" id="L54" title="1 of 4 branches missed.">        if (dna == null || dna.length == 0) {</span>
+<span class="fc" id="L55">            throw new IllegalArgumentException(&quot;El DNA no puede ser nulo o vacÃ­o.&quot;);</span>
+        }
+
+<span class="fc" id="L58">        int n = dna.length;</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        for (String row : dna) {</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            if (row.isEmpty()) {</span>
+<span class="fc" id="L61">                throw new IllegalArgumentException(&quot;Cada cadena de DNA debe tener una longitud de exactamente 6 caracteres.&quot;);</span>
+            }
+<span class="fc bfc" id="L63" title="All 2 branches covered.">            if (row.length() != n) {</span>
+<span class="fc" id="L64">                throw new IllegalArgumentException(&quot;Todas las filas deben tener la misma longitud. El DNA debe ser cuadrado (NxN)&quot;);</span>
+            }
+<span class="fc bfc" id="L66" title="All 2 branches covered.">            if (!row.matches(&quot;[ATCG]+&quot;)) {</span>
+<span class="fc" id="L67">                throw new IllegalArgumentException(&quot;El DNA contiene caracteres no vÃ¡lidos. Solo se permiten A, T, C, G.&quot;);</span>
+            }
+        }
+
+<span class="fc" id="L71">        int secuenciasEncontradas = contarSecuencias(dna, n, 0, 0, 0);</span>
+
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        return secuenciasEncontradas &gt;= 2;</span>
+    }
+
+
+    // MÃ©todo principal de recursiÃ³n para buscar secuencias
+    private int contarSecuencias(String[] dna, int n, int row, int col, int secuenciasEncontradas) {
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        if (row &gt;= n) return secuenciasEncontradas;</span>
+<span class="pc bpc" id="L80" title="2 of 4 branches missed.">        if (col &lt;= n - 4 &amp;&amp; checkSequence(dna, row, col, 0, 1)) {</span>
+<span class="nc" id="L81">            secuenciasEncontradas++;</span>
+        }
+<span class="pc bpc" id="L83" title="2 of 4 branches missed.">        if (row &lt;= n - 4 &amp;&amp; checkSequence(dna, row, col, 1, 0)) {</span>
+<span class="nc" id="L84">            secuenciasEncontradas++;</span>
+        }
+<span class="pc bpc" id="L86" title="2 of 6 branches missed.">        if (row &lt;= n - 4 &amp;&amp; col &lt;= n - 4 &amp;&amp; checkSequence(dna, row, col, 1, 1)) {</span>
+<span class="fc" id="L87">            secuenciasEncontradas++;</span>
+        }
+<span class="pc bpc" id="L89" title="4 of 6 branches missed.">        if (row &lt;= n - 4 &amp;&amp; col &gt;= 3 &amp;&amp; checkSequence(dna, row, col, 1, -1)) {</span>
+<span class="nc" id="L90">            secuenciasEncontradas++;</span>
+        }
+
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        if (secuenciasEncontradas &gt;= 2) return secuenciasEncontradas;</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if (col + 1 &lt; n) {</span>
+<span class="fc" id="L95">            return contarSecuencias(dna, n, row, col + 1, secuenciasEncontradas);</span>
+        } else {
+<span class="nc" id="L97">            return contarSecuencias(dna, n, row + 1, 0, secuenciasEncontradas);</span>
+        }
+    }
+
+    private boolean checkSequence(String[] dna, int row, int col, int rowDir, int colDir) {
+<span class="fc" id="L102">        return checkRecursively(dna, row, col, rowDir, colDir, dna[row].charAt(col), 1);</span>
+    }
+
+    private boolean checkRecursively(String[] dna, int row, int col, int rowDir, int colDir, char target, int count) {
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        if (count == 4) return true;  // EncontrÃ³ una secuencia de 4 iguales</span>
+<span class="pc bpc" id="L107" title="4 of 8 branches missed.">        if (row + rowDir &gt;= dna.length || col + colDir &gt;= dna.length || row + rowDir &lt; 0 || col + colDir &lt; 0) {</span>
+<span class="nc" id="L108">            return false;</span>
+        }
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        if (dna[row + rowDir].charAt(col + colDir) != target) {</span>
+<span class="fc" id="L111">            return false;</span>
+        }
+
+<span class="fc" id="L114">        return checkRecursively(dna, row + rowDir, col + colDir, rowDir, colDir, target, count + 1);</span>
+    }
+
+    public boolean delete(Long id) throws Exception{
+        try{
+<span class="nc bnc" id="L119" title="All 2 branches missed.">            if (dnaMutanteRepository.existsById(id)){</span>
+<span class="nc" id="L120">                dnaMutanteRepository.deleteById(id);</span>
+<span class="nc" id="L121">                return true;</span>
+            }else{
+<span class="nc" id="L123">                throw new Exception();</span>
+            }
+<span class="nc" id="L125">        }catch (Exception e){</span>
+<span class="nc" id="L126">            throw new Exception(e.getMessage());</span>
+        }
+    }
+    public boolean deleteAll() throws Exception{
+        try{
+<span class="nc" id="L131">            dnaMutanteRepository.deleteAll();</span>
+<span class="nc" id="L132">            return true;</span>
+<span class="nc" id="L133">        }catch (Exception e){</span>
+<span class="nc" id="L134">            throw new Exception(e.getMessage());</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
